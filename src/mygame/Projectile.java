@@ -22,7 +22,6 @@ class Projectile extends AbstractControl {
     private Vector3f velocity = new Vector3f(0, 0, 0);
     private float lifetime = 0;
     private int type = -1;
-    private float normalTpf = -1;
     private boolean exists = true;
     private Tower tower;
     private Spatial geom2;

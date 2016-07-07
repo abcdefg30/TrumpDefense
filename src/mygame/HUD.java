@@ -21,6 +21,7 @@ public class HUD extends AbstractAppState implements ScreenController {
 
     Element Welle;
     Element Money;
+    Element GameOver;
     Nifty nifty;
     NiftyJmeDisplay niftyDisplay;
     MainGame main;
@@ -41,18 +42,27 @@ public class HUD extends AbstractAppState implements ScreenController {
         Welle = screen.getRootElement().findElementByName("layer")
                 .findElementByName("ingameStats")
                 .findElementByName("Welle");
-        Money =  screen.getRootElement().findElementByName("layer")
+        Money = screen.getRootElement().findElementByName("layer")
                 .findElementByName("ingameStats")
                 .findElementByName("Money");
+        GameOver = screen.getRootElement().findElementByName("layer")
+                .findElementByName("GameOver");
+        GameOver.setVisible(false);
     }
 
     public void onStartScreen() { }
     public void onEndScreen() { }
-    public void setMoney(int money){
-    Money.getRenderer(TextRenderer.class).setText("Geld: " + money);
+
+    public void setMoney(int money) {
+        Money.getRenderer(TextRenderer.class).setText("Geld: " + money);
     }
+
     public void setzeWelle(int welle) {
         Welle.getRenderer(TextRenderer.class).setText("Welle: " + welle);
+    }
+
+    public void GameOver() {
+        GameOver.setVisible(true);
     }
 
     public void placeTower(String type) {

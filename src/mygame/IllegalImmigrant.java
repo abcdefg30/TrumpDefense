@@ -26,7 +26,6 @@ public class IllegalImmigrant extends AbstractControl {
     private TdMap m;
     private WaveSpawner w;
     private float taserTicks = 0.0f;
-    private float normalTpf = -1;
     public Vector3f sphereDirection;
     private float health = 100.0f;
     private boolean living = true;
@@ -70,7 +69,7 @@ public class IllegalImmigrant extends AbstractControl {
                     counter++;
                 }
             } else {
-                MainGame.instance.reduceHealth(1);
+                MainGame.instance.reduceHealth();
                 spatial.removeFromParent();
                 w.remove(this);
             }
@@ -112,8 +111,8 @@ public class IllegalImmigrant extends AbstractControl {
             case Projectile.TYPE_LASER:
                 if(health <= 0) {
                     remove();
-                    MainGame.instance.money=MainGame.instance.money+50;
-                    MainGame.instance.setMoney(MainGame.instance.money+50);
+                    MainGame.instance.money = MainGame.instance.money + 50;
+                    MainGame.instance.setMoney(MainGame.instance.money + 50);
                     p.remove();
                 }
                 break;

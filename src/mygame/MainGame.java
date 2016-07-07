@@ -51,7 +51,6 @@ public class MainGame extends AbstractAppState {
     Boolean isRunning = true;
     protected Node shootables;
     private Node cubes;
-    private BitmapText healthbar;
     public static MainGame instance;
     public DataControl DataControl;
     private Geometry backgroundGeom;
@@ -63,7 +62,6 @@ public class MainGame extends AbstractAppState {
     private boolean showCursor = false;
     private Geometry cursor;
     private WaveSpawner spawner;
-    private boolean previewCount = true;
     Tower preview = null;
     HUD hud;
     private DirectionalLight dl;
@@ -72,8 +70,6 @@ public class MainGame extends AbstractAppState {
     private InputManager inputManager;
     private FlyByCamera flyCam;
     private Camera cam;
-    private Node guiNode;
-    private BitmapFont guiFont;
     private AudioRenderer audioRenderer;
     private ViewPort guiViewPort;
     private Main main;
@@ -88,8 +84,6 @@ public class MainGame extends AbstractAppState {
         this.inputManager = this.app.getInputManager();
         this.flyCam = this.app.getFlyByCamera();
         this.cam = cam = this.app.getCamera();
-        this.guiNode = this.app.getGuiNode();
-        this.guiFont = new BitmapFont();
         this.audioRenderer = this.app.getAudioRenderer();
         this.guiViewPort = this.app.getGuiViewPort();
         main = Main.instance;
@@ -110,11 +104,7 @@ public class MainGame extends AbstractAppState {
         shootables.attachChild(cubes);
         rootNode.attachChild(shootables);
 
-        Health = 10;
-
-        // healthbar = new BitmapText(guiFont);
-        // healthbar.setText(""+Health);
-        // guiNode.attachChild(healthbar);
+        Health = 1;
 
         dl = new DirectionalLight();
         dl.setDirection(new Vector3f(0.0f, 0.0f, -1.0f).normalizeLocal());
@@ -147,7 +137,7 @@ public class MainGame extends AbstractAppState {
     @Override
     public void update(float tpf) {
         if (Health <= 0) {
-            this.setEnabled(false);
+            GameOver();
             //this.stop();
         }
         // TODO: implement behavior during runtime
@@ -338,19 +328,22 @@ public class MainGame extends AbstractAppState {
         return cam;
     }
 
-    void reduceHealth(int i) {
-        Health--;
-    }
-
     public void NeueWelle(int welle) {
         hud.setzeWelle(welle);
     }
+
     public void setMoney(int money){
-    hud.setMoney(money);
+        hud.setMoney(money);
     }
 
     public void SkipWave() {
         spawner.newWave();
+    }
+
+    public void GameOver(){
+        setEnabled(false);
+        hud.GameOver();
+        System.out.println("hi");
     }
 
     // Wie viel mal länger ein Tick maximal dauern darf

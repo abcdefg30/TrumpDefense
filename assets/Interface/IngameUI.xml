@@ -5,6 +5,7 @@
     <!-- +++++++++++++++++++++++++++++++++++++++ -->
     <screen id="sidebar" controller="mygame.HUD">
         <layer id="layer" childLayout="center">
+            <text id="GameOver" font="Interface/Fonts/Arial.fnt" color="#f00f" text="GAME OVER" />
             <panel id="ingameStats" width="20%" height="100%" backgroundColor="#44ff" align="right" childLayout="absolute">
                 <image width="100%" height="100%" x="0px" y="0px" filename="Interface/muricaflag.png"></image>
                 <text id="Welle" font="Interface/Fonts/Arial.fnt" color="#003f" text="Welle: 0" x="10%" y="2%" />
