@@ -29,7 +29,6 @@ class Tower extends AbstractControl {
     private IllegalImmigrant target;
     private float rotationSpeed = 3.0f;
     private float currentRotation = 0;
-    private float normalTpf = -1;
     private float maxAngle = 0.05f;
     private Projectile p;
     public String Beschreibung;
@@ -57,8 +56,6 @@ class Tower extends AbstractControl {
             projectileType = Projectile.TYPE_TASER;
     }
 
-    
-    
     public void init(Vector3f position) {
         geom = GeometryCreator.instance.createTowerGeom(type);
         geom.setLocalTranslation(position);

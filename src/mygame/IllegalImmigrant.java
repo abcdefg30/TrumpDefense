@@ -9,7 +9,7 @@ import com.jme3.scene.shape.Quad;
 
 /**
  *
- * @author Amir
+ * @author Amir, Lukas
  */
 public class IllegalImmigrant extends AbstractControl {
 
@@ -85,20 +85,6 @@ public class IllegalImmigrant extends AbstractControl {
     @Override
     protected void controlRender(RenderManager rm, ViewPort vp) { }
 
-    public void hit(Projectile p) {
-        switch (p.getType()) {
-            case Projectile.TYPE_LASER:
-                killed();
-                break;
-            case Projectile.TYPE_NORMAL:
-                killed();
-                break;
-            case Projectile.TYPE_TASER:
-                taserTicks = 2.0f;
-                break;
-        }
-    }
-
     public Vector3f getPosition() {
         return spatial.getLocalTranslation();
     }
@@ -132,7 +118,6 @@ public class IllegalImmigrant extends AbstractControl {
         MainGame.instance.ImmigrantKilled(this);
         living = false;
     }
-
 
     public float getTaserTicks() {
         return taserTicks;

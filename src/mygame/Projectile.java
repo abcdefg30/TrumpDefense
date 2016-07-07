@@ -20,7 +20,6 @@ class Projectile extends AbstractControl {
     private float speedFactor = 60f;
     private final float distance = 0.3f;
     private Vector3f velocity = new Vector3f(0, 0, 0);
-    private float lifetime = 0;
     private int type = -1;
     private boolean exists = true;
     private Tower tower;
@@ -37,38 +36,29 @@ class Projectile extends AbstractControl {
 
     @Override
     protected void controlUpdate(float tpf) {
-        if(MainGame.instance.isEnabled()){
-        if(exists) {
-            if(!tower.isInRange(this, target)) {
-                switch(type) {
-                    case TYPE_LASER:
-                        remove();
-                        break;
-                    default:
-                        break;
-                }
-            }
-                
-            switch (type) {
-                case TYPE_LASER:
-                    hit(tpf);
-                    if (geom2 != null) {
-                        geom2.removeFromParent();
-                    }
-                    if (exists) {
-                        geom2 = GeometryCreator.instance.createRainbowLaser(spatial.getLocalTranslation(), target.getPosition());
-                        MainGame.instance.attachToRootNode(geom2);
-                    }
-                    break;
-                case TYPE_NORMAL:
-                    moveToTarget(tpf);
-                    break;
-                case TYPE_TASER:
-                    moveToTarget(tpf);
-                    break;
-            }
-        } 
-    }}
+        if(!MainGame.instance.isEnabled() || !exists)
+            return;
+
+        if(!tower.isInRange(this, target) && type == TYPE_LASER)
+            remove();
+
+        switch (type) {
+            case TYPE_LASER:
+                hit(tpf);
+                if (geom2 != null)
+                    geom2.removeFromParent();
+
+                geom2 = GeometryCreator.instance.createRainbowLaser(spatial.getLocalTranslation(), target.getPosition());
+                MainGame.instance.attachToRootNode(geom2);
+                break;
+            case TYPE_NORMAL:
+                moveToTarget(tpf);
+                break;
+            case TYPE_TASER:
+                moveToTarget(tpf);
+                break;
+        }
+    }
     
     public void hit(float fixedTpf) {
         switch (type) {

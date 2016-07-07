@@ -56,8 +56,7 @@ public class GeometryCreator {
         boxs.setLocalTranslation(as);
         return boxs;
     }
-    
-    
+
     public Spatial createRainbowLaser(Vector3f pos1, Vector3f pos2) {
         Vector3f vec = pos2.subtract(pos1);
         Vector3f vec2 = vec.divide(3);

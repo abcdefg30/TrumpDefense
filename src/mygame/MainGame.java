@@ -288,9 +288,6 @@ public class MainGame extends AbstractAppState {
         return spawner;
     }
 
-    public void removeTower(Tower t) {
-    }
-
     public void CreateTowerPreview() {
         preview = new Tower(hud.CurrentTower);
         towerPreview(preview);
@@ -314,9 +311,6 @@ public class MainGame extends AbstractAppState {
         super.cleanup();
         rootNode.detachAllChildren();
         DataControl.Close();
-        // TODO: clean up what you initialized in the initialize method,
-        // e.g. remove all spatials from rootNode
-        // this is called on the OpenGL thread after the AppState has been detached
     }
 
     AssetManager getAssetManager() {
