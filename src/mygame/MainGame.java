@@ -73,7 +73,7 @@ public class MainGame extends AbstractAppState {
     private AudioRenderer audioRenderer;
     private ViewPort guiViewPort;
     private Main main;
-    public int money = 1000;
+    public int money = 500;
 
     @Override
     public void initialize(AppStateManager stateManager, Application app) {
@@ -119,6 +119,7 @@ public class MainGame extends AbstractAppState {
 
         rootNode.addLight(al);
         hud = new HUD(this, assetManager, inputManager, audioRenderer, guiViewPort);
+        hud.setMoney(money);
 
         DataControl = new DataControl();
 
@@ -199,7 +200,7 @@ public class MainGame extends AbstractAppState {
     private void updateCursor() {
         Vector3f position = getMousePosition();
         cursor.setLocalTranslation(position);
-        if (map.towerplace(position, fsq) == true) {
+        if (map.towerplace(position, fsq) && money >= 250) {
             cursor.getMaterial().setColor("Color", ColorRGBA.Green);
         } else {
             cursor.getMaterial().setColor("Color", ColorRGBA.Red);
@@ -250,16 +251,14 @@ public class MainGame extends AbstractAppState {
                 flyCam.setMoveSpeed(100);
                 flyCam.setRotationSpeed(5);
             } else if (name.equals("left") && keyPressed) {
-                if (hud.CurrentTower != -1) {
-                    if (money >= 250) {
-                        Vector3f position = getMousePosition();
-                        if (map.towerplace(position, fsq) == true) {
-                            preview.init(position);
-                            money = money - 250;
-                            setMoney(money);
-                            destroyCursor();
-                            hud.CurrentTower = -1;
-                        }
+                if (hud.CurrentTower != -1 && money >= 250) {
+                    Vector3f position = getMousePosition();
+                    if (map.towerplace(position, fsq)) {
+                        preview.init(position);
+                        money -= 250;
+                        hud.setMoney(money);
+                        destroyCursor();
+                        hud.CurrentTower = -1;
                     }
                 }
             } else if (name.equals("right") && keyPressed) {
@@ -332,10 +331,6 @@ public class MainGame extends AbstractAppState {
         hud.setzeWelle(welle);
     }
 
-    public void setMoney(int money){
-        hud.setMoney(money);
-    }
-
     public void SkipWave() {
         spawner.newWave();
     }
@@ -344,6 +339,12 @@ public class MainGame extends AbstractAppState {
         setEnabled(false);
         hud.GameOver();
         System.out.println("hi");
+    }
+
+    public void ImmigrantKilled(IllegalImmigrant immigrant) {
+        spawner.remove(immigrant);
+        money += 50;
+        hud.setMoney(money);
     }
 
     // Wie viel mal länger ein Tick maximal dauern darf

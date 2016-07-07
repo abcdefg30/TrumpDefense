@@ -88,10 +88,10 @@ public class IllegalImmigrant extends AbstractControl {
     public void hit(Projectile p) {
         switch (p.getType()) {
             case Projectile.TYPE_LASER:
-                remove();
+                killed();
                 break;
             case Projectile.TYPE_NORMAL:
-                remove();
+                killed();
                 break;
             case Projectile.TYPE_TASER:
                 taserTicks = 2.0f;
@@ -109,33 +109,27 @@ public class IllegalImmigrant extends AbstractControl {
         }
         switch (p.getType()) {
             case Projectile.TYPE_LASER:
-                if(health <= 0) {
-                    remove();
-                    MainGame.instance.money = MainGame.instance.money + 50;
-                    MainGame.instance.setMoney(MainGame.instance.money + 50);
-                    p.remove();
-                }
+                if (health <= 0)
+                    killed();
                 break;
             case Projectile.TYPE_NORMAL:
-                if(health <= 0) {
-                    remove();
-                }
-                p.remove();
+                if (health <= 0)
+                    killed();
                 break;
             case Projectile.TYPE_TASER:
                 taserTicks = 2.0f;
-                p.remove();
                 break;
         }
+        p.remove();
     }
 
     public Vector3f getSpheredirection() {
         return sphereDirection;
     }
 
-    public void remove() {
+    void killed() {
         spatial.removeFromParent();
-        w.remove(this);
+        MainGame.instance.ImmigrantKilled(this);
         living = false;
     }
 
